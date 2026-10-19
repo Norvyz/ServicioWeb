@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- =========================================================
+         Evidencia GA7-220501096-AA5-EV01
+         Diseño y desarrollo de servicios web - Caso:
+         Servicio web de registro e inicio de sesión
+         Archivo: index.html (vista principal de acceso)
+    ========================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Servicio web de registro e inicio de sesión - GA7-220501096-AA5-EV01">
+    <title>Acceso | Servicio Web de Autenticación</title>
+
+    <!-- Hoja de estilos principal (organizada en la carpeta /css) -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ========== Fondo decorativo con burbujas animadas ========== -->
+    <div class="fondo" aria-hidden="true">
+        <span class="burbuja burbuja-1"></span>
+        <span class="burbuja burbuja-2"></span>
+        <span class="burbuja burbuja-3"></span>
+        <span class="burbuja burbuja-4"></span>
+    </div>
+
+    <!-- ========== Contenedor principal ========== -->
+    <main class="contenedor">
+
+        <!-- Tarjeta que contiene los dos formularios -->
+        <section class="tarjeta" id="tarjeta">
+
+            <!-- Encabezado con logo animado -->
+            <header class="marca">
+                <div class="logo">
+                    <!-- Icono de candado (SVG en línea) -->
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none"
+                         stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h1>Bienvenido</h1>
+                <p id="subtitulo">Inicia sesión para continuar</p>
+            </header>
+
+            <!-- ============ FORMULARIO DE INICIO DE SESIÓN ============ -->
+            <form id="formLogin" class="formulario activo" autocomplete="off" novalidate>
+
+                <!-- Campo usuario -->
+                <div class="campo">
+                    <input type="text" id="loginUsuario" name="usuario" placeholder=" " required>
+                    <label for="loginUsuario">Usuario</label>
+                    <span class="subrayado"></span>
+                </div>
+
+                <!-- Campo contraseña -->
+                <div class="campo">
+                    <input type="password" id="loginClave" name="clave" placeholder=" " required>
+                    <label for="loginClave">Contraseña</label>
+                    <span class="subrayado"></span>
+                </div>
+
+                <!-- Botón de envío (con animación de carga) -->
+                <button type="submit" class="boton" id="botonLogin">
+                    <span class="texto">Iniciar sesión</span>
+                    <span class="cargando" aria-hidden="true"></span>
+                </button>
+            </form>
+
+            <!-- ============ FORMULARIO DE REGISTRO ============ -->
+            <form id="formRegistro" class="formulario" autocomplete="off" novalidate>
+
+                <!-- Campo usuario -->
+                <div class="campo">
+                    <input type="text" id="regUsuario" name="usuario" placeholder=" " required minlength="3">
+                    <label for="regUsuario">Usuario</label>
+                    <span class="subrayado"></span>
+                </div>
+
+                <!-- Campo correo electrónico -->
+                <div class="campo">
+                    <input type="email" id="regCorreo" name="correo" placeholder=" " required>
+                    <label for="regCorreo">Correo electrónico</label>
+                    <span class="subrayado"></span>
+                </div>
+
+                <!-- Campo contraseña -->
+                <div class="campo">
+                    <input type="password" id="regClave" name="clave" placeholder=" " required minlength="6">
+                    <label for="regClave">Contraseña (mín. 6 caracteres)</label>
+                    <span class="subrayado"></span>
+                </div>
+
+                <!-- Campo repetir contraseña -->
+                <div class="campo">
+                    <input type="password" id="regClave2" name="clave2" placeholder=" " required>
+                    <label for="regClave2">Repetir contraseña</label>
+                    <span class="subrayado"></span>
+                </div>
+
+                <!-- Botón de registro -->
+                <button type="submit" class="boton" id="botonRegistro">
+                    <span class="texto">Crear cuenta</span>
+                    <span class="cargando" aria-hidden="true"></span>
+                </button>
+            </form>
+
+            <!-- Enlace para alternar entre iniciar sesión y registro -->
+            <p class="cambio-formulario">
+                <span id="textoCambio">¿No tienes cuenta?</span>
+                <button type="button" id="btnAlternar">Regístrate</button>
+            </p>
+        </section>
+    </main>
+
+    <!-- ========== Notificación flotante (toast) ========== -->
+    <div class="notificacion" id="notificacion" role="status" aria-live="polite">
+        <span class="icono" id="notificacionIcono">✓</span>
+        <span class="mensaje" id="notificacionMensaje"></span>
+    </div>
+
+    <!-- Script principal (organizado en la carpeta /js) -->
+    <script src="js/main.js"></script>
+</body>
+</html>
