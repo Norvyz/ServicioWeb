@@ -6,6 +6,9 @@
          Diseño y desarrollo de servicios web - Caso:
          Servicio web de registro e inicio de sesión
          Archivo: index.html (vista principal de acceso)
+
+         Diseño minimalista, animado y responsive.
+         Incluye: ver contraseña (ojito) y medidor de fuerza.
     ========================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,12 +20,10 @@
 </head>
 <body>
 
-    <!-- ========== Fondo decorativo con burbujas animadas ========== -->
+    <!-- ========== Fondo minimalista: dos orbes de luz que se mueven ========== -->
     <div class="fondo" aria-hidden="true">
-        <span class="burbuja burbuja-1"></span>
-        <span class="burbuja burbuja-2"></span>
-        <span class="burbuja burbuja-3"></span>
-        <span class="burbuja burbuja-4"></span>
+        <span class="orbe orbe-1"></span>
+        <span class="orbe orbe-2"></span>
     </div>
 
     <!-- ========== Contenedor principal ========== -->
@@ -31,19 +32,20 @@
         <!-- Tarjeta que contiene los dos formularios -->
         <section class="tarjeta" id="tarjeta">
 
-            <!-- Encabezado con logo animado -->
+            <!-- Encabezado minimalista -->
             <header class="marca">
                 <div class="logo">
-                    <!-- Icono de candado (SVG en línea) -->
-                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none"
-                         stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                    <!-- Icono de candado (SVG en línea, trazo fino) -->
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none"
+                         stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
                          stroke-linejoin="round" aria-hidden="true">
-                        <rect x="3" y="11" width="18" height="11" rx="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        <rect x="4" y="11" width="16" height="9" rx="2.5"></rect>
+                        <path d="M8 11V7.5a4 4 0 0 1 8 0V11"></path>
+                        <circle cx="12" cy="15.4" r="1.1" fill="currentColor" stroke="none"></circle>
                     </svg>
                 </div>
-                <h1>Bienvenido</h1>
-                <p id="subtitulo">Inicia sesión para continuar</p>
+                <h1 id="titulo">Iniciar sesión</h1>
+                <p id="subtitulo">Bienvenido de nuevo</p>
             </header>
 
             <!-- ============ FORMULARIO DE INICIO DE SESIÓN ============ -->
@@ -51,16 +53,30 @@
 
                 <!-- Campo usuario -->
                 <div class="campo">
-                    <input type="text" id="loginUsuario" name="usuario" placeholder=" " required>
-                    <label for="loginUsuario">Usuario</label>
+                    <input type="text" id="loginUsuario" name="usuario" placeholder="Usuario"
+                           autocomplete="username" required>
                     <span class="subrayado"></span>
                 </div>
 
-                <!-- Campo contraseña -->
-                <div class="campo">
-                    <input type="password" id="loginClave" name="clave" placeholder=" " required>
-                    <label for="loginClave">Contraseña</label>
-                    <span class="subrayado"></span>
+                <!-- Campo contraseña (con botón "ojito") -->
+                <div class="campo grupo-clave">
+                    <input type="password" id="loginClave" name="clave" placeholder="Contraseña"
+                           autocomplete="current-password" required>
+                    <!-- Botón para mostrar / ocultar la contraseña -->
+                    <button type="button" class="ojo" data-objetivo="loginClave"
+                            aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                        <svg class="icono-ojo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="2.8"></circle>
+                        </svg>
+                        <svg class="icono-ojo-tachado" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="2.8"></circle>
+                            <line x1="4" y1="4" x2="20" y2="20"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 <!-- Botón de envío (con animación de carga) -->
@@ -75,30 +91,77 @@
 
                 <!-- Campo usuario -->
                 <div class="campo">
-                    <input type="text" id="regUsuario" name="usuario" placeholder=" " required minlength="3">
-                    <label for="regUsuario">Usuario</label>
+                    <input type="text" id="regUsuario" name="usuario" placeholder="Usuario"
+                           autocomplete="username" required minlength="3">
                     <span class="subrayado"></span>
                 </div>
 
                 <!-- Campo correo electrónico -->
                 <div class="campo">
-                    <input type="email" id="regCorreo" name="correo" placeholder=" " required>
-                    <label for="regCorreo">Correo electrónico</label>
+                    <input type="email" id="regCorreo" name="correo" placeholder="Correo electrónico"
+                           autocomplete="email" required>
                     <span class="subrayado"></span>
                 </div>
 
-                <!-- Campo contraseña -->
-                <div class="campo">
-                    <input type="password" id="regClave" name="clave" placeholder=" " required minlength="6">
-                    <label for="regClave">Contraseña (mín. 6 caracteres)</label>
-                    <span class="subrayado"></span>
+                <!-- Campo contraseña (con ojito + medidor de fuerza) -->
+                <div class="campo grupo-clave">
+                    <input type="password" id="regClave" name="clave" placeholder="Contraseña"
+                           autocomplete="new-password" required minlength="8"
+                           aria-describedby="medidorFuerza requisitos">
+                    <button type="button" class="ojo" data-objetivo="regClave"
+                            aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                        <svg class="icono-ojo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="2.8"></circle>
+                        </svg>
+                        <svg class="icono-ojo-tachado" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="2.8"></circle>
+                            <line x1="4" y1="4" x2="20" y2="20"></line>
+                        </svg>
+                    </button>
                 </div>
 
-                <!-- Campo repetir contraseña -->
-                <div class="campo">
-                    <input type="password" id="regClave2" name="clave2" placeholder=" " required>
-                    <label for="regClave2">Repetir contraseña</label>
-                    <span class="subrayado"></span>
+                <!-- ===== Medidor de fuerza de la contraseña ===== -->
+                <div class="fuerza" id="medidorFuerza" data-nivel="0" aria-hidden="true">
+                    <div class="fuerza-barras">
+                        <span class="barra"></span>
+                        <span class="barra"></span>
+                        <span class="barra"></span>
+                        <span class="barra"></span>
+                    </div>
+                    <span class="fuerza-etiqueta" id="fuerzaEtiqueta">Escribe tu contraseña</span>
+                </div>
+
+                <!-- ===== Requisitos de la contraseña ===== -->
+                <ul class="requisitos" id="requisitos">
+                    <li data-regla="longitud"><span class="punto"></span>Mínimo 8 caracteres</li>
+                    <li data-regla="mayuscula"><span class="punto"></span>Una mayúscula</li>
+                    <li data-regla="minuscula"><span class="punto"></span>Una minúscula</li>
+                    <li data-regla="numero"><span class="punto"></span>Un número</li>
+                    <li data-regla="simbolo"><span class="punto"></span>Un símbolo</li>
+                </ul>
+
+                <!-- Campo repetir contraseña (con ojito a juego) -->
+                <div class="campo grupo-clave">
+                    <input type="password" id="regClave2" name="clave2" placeholder="Repetir contraseña"
+                           autocomplete="new-password" required>
+                    <button type="button" class="ojo" data-objetivo="regClave2"
+                            aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                        <svg class="icono-ojo" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="2.8"></circle>
+                        </svg>
+                        <svg class="icono-ojo-tachado" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+                            <circle cx="12" cy="12" r="2.8"></circle>
+                            <line x1="4" y1="4" x2="20" y2="20"></line>
+                        </svg>
+                    </button>
                 </div>
 
                 <!-- Botón de registro -->

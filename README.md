@@ -6,6 +6,20 @@
 Sitio web responsive y animado para registrar usuarios e iniciar sesión, consumiendo
 servicios web PHP que devuelven **autenticación satisfactoria** o **error en la autenticación**.
 
+## Características de interfaz
+
+- **Diseño minimalista**: tarjeta con efecto *glassmorphism*, paleta índigo/cian y formas limpias.
+- **Animaciones**: orbes de luz en movimiento, entrada de la tarjeta, deslizamiento entre
+  formularios, destello en los botones y *toast* de notificación.
+- **Ver contraseña (ojito)**: botón con icono de ojo que alterna entre `password` y `text`
+  en los tres campos de contraseña.
+- **Medidor de fuerza**: barra de 4 segmentos con colores — rojo (débil), ámbar (media),
+  verde lima (fuerte) y verde (muy fuerte).
+- **Requisitos en vivo**: mínimo 8 caracteres, una mayúscula, una minúscula, un número y
+  un símbolo, con palomitas animadas a medida que se cumplen.
+- **Responsive**: se adapta a móviles, tabletas y escritorio.
+- **Accesibilidad**: soporte para `prefers-reduced-motion` y etiquetas ARIA.
+
 ---
 
 ## Estructura del proyecto

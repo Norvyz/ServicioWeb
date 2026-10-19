@@ -32,12 +32,10 @@ $hora    = htmlspecialchars($_SESSION['hora'] ?? date('d/m/Y H:i:s'), ENT_QUOTES
 </head>
 <body>
 
-    <!-- Fondo decorativo con burbujas animadas -->
+    <!-- Fondo minimalista: dos orbes de luz animados -->
     <div class="fondo" aria-hidden="true">
-        <span class="burbuja burbuja-1"></span>
-        <span class="burbuja burbuja-2"></span>
-        <span class="burbuja burbuja-3"></span>
-        <span class="burbuja burbuja-4"></span>
+        <span class="orbe orbe-1"></span>
+        <span class="orbe orbe-2"></span>
     </div>
 
     <main class="contenedor">

@@ -1,36 +1,39 @@
 /* =========================================================
    Evidencia GA7-220501096-AA5-EV01
    Archivo : css/style.css
-   Descripción: estilos del formulario de registro e inicio
-   de sesión. Diseño responsive y con animaciones.
+   Descripción: estilo minimalista, animado y responsive del
+   formulario de registro e inicio de sesión. Incluye el botón
+   para ver la contraseña (ojito) y el medidor de fuerza.
 
    Índice de secciones:
      1. Variables y reinicio
-     2. Fondo animado
-     3. Tarjeta de acceso
-     4. Formularios y campos
-     5. Botones
-     6. Notificaciones (toast)
-     7. Pantalla de bienvenida
-     8. Animaciones (keyframes)
-     9. Media queries (responsive)
+     2. Fondo animado (orbes de luz)
+     3. Tarjeta y encabezado
+     4. Formularios y campos minimalistas
+     5. Botón "ojito" (ver contraseña)
+     6. Medidor de fuerza y requisitos
+     7. Botones de acción
+     8. Notificaciones (toast)
+     9. Página de bienvenida
+    10. Animaciones (keyframes)
+    11. Media queries (responsive)
 ========================================================= */
 
 /* ============ 1. Variables y reinicio ============ */
 :root {
-    --color-primario: #6c5ce7;
-    --color-primario-oscuro: #5541c8;
-    --color-acento: #00cec9;
-    --color-error: #ff6b6b;
-    --color-exito: #1dd1a1;
-    --color-texto: #2d3436;
-    --color-texto-suave: #7a7f85;
-    --color-borde: #e3e6ea;
-    --sombra: 0 24px 50px rgba(15, 12, 41, .45);
-    --radio: 20px;
+    --acento: #6366f1;          /* Índigo principal            */
+    --acento-2: #22d3ee;        /* Cian de apoyo               */
+    --tinta: #0f172a;
+    --tinta-suave: #8a94a6;
+    --linea: #e8ebf0;
+    --fondo-campo: #f7f8fb;
+    --error: #ef4444;
+    --exito: #10b981;
+    --aviso: #f59e0b;
+    --radio: 22px;
+    --sombra: 0 30px 60px -20px rgba(15, 23, 42, .35);
 }
 
-/* Reinicio básico de estilos */
 * {
     margin: 0;
     padding: 0;
@@ -38,40 +41,53 @@
 }
 
 body {
-    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 55%, #24243e 100%);
-    overflow: hidden;
-    color: var(--color-texto);
+    padding: 24px;
+    color: var(--tinta);
+    background: #f4f5f9;
+    overflow-x: hidden;
 }
 
-/* ============ 2. Fondo animado ============ */
+/* ============ 2. Fondo animado (orbes de luz) ============ */
 .fondo {
     position: fixed;
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    pointer-events: none;
 }
 
-/* Burbujas de color que flotan detrás de la tarjeta */
-.burbuja {
+/* Dos manchas de luz suaves que se desplazan lentamente */
+.orbe {
     position: absolute;
     border-radius: 50%;
-    filter: blur(70px);
-    opacity: .45;
-    animation: flotar 14s ease-in-out infinite alternate;
+    filter: blur(80px);
+    opacity: .55;
 }
 
-.burbuja-1 { width: 320px; height: 320px; background: var(--color-primario); top: -80px;  left: -60px; }
-.burbuja-2 { width: 260px; height: 260px; background: var(--color-acento);  bottom: -70px; right: -50px; animation-delay: -4s; }
-.burbuja-3 { width: 190px; height: 190px; background: #e84393; top: 55%; left: 8%;  animation-delay: -7s; }
-.burbuja-4 { width: 150px; height: 150px; background: #0984e3; top: 12%; right: 12%; animation-delay: -10s; }
+.orbe-1 {
+    width: 46vmax;
+    height: 46vmax;
+    top: -14vmax;
+    left: -12vmax;
+    background: radial-gradient(circle, rgba(99, 102, 241, .75), transparent 65%);
+    animation: derivar-1 18s ease-in-out infinite alternate;
+}
 
-/* ============ 3. Tarjeta de acceso ============ */
+.orbe-2 {
+    width: 40vmax;
+    height: 40vmax;
+    bottom: -16vmax;
+    right: -10vmax;
+    background: radial-gradient(circle, rgba(34, 211, 238, .7), transparent 65%);
+    animation: derivar-2 22s ease-in-out infinite alternate;
+}
+
+/* ============ 3. Tarjeta y encabezado ============ */
 .contenedor {
     position: relative;
     z-index: 1;
@@ -81,255 +97,394 @@ body {
 }
 
 .tarjeta {
-    width: min(430px, 100%);
-    padding: 42px 36px 32px;
-    background: rgba(255, 255, 255, .96);
+    width: min(400px, 100%);
+    padding: 40px 34px 30px;
+    background: rgba(255, 255, 255, .82);
+    border: 1px solid rgba(255, 255, 255, .9);
     border-radius: var(--radio);
     box-shadow: var(--sombra);
-    backdrop-filter: blur(8px);
-    animation: entrada .8s cubic-bezier(.2, .9, .25, 1.2) both;
-    transition: box-shadow .4s ease;
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    animation: subir .7s cubic-bezier(.2, .8, .25, 1) both;
 }
 
-/* Brillo verde cuando la autenticación es correcta */
+/* Resplandor verde al autenticarse correctamente */
 .tarjeta.exito {
-    box-shadow: 0 24px 55px rgba(29, 209, 161, .55);
-    animation: pulso 1s ease;
+    box-shadow: 0 30px 60px -20px rgba(16, 185, 129, .6), 0 0 0 2px var(--exito) inset;
 }
 
-/* Encabezado con logo */
 .marca {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
 }
 
 .logo {
-    width: 66px;
-    height: 66px;
+    width: 56px;
+    height: 56px;
     margin: 0 auto 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-primario), var(--color-acento));
-    box-shadow: 0 10px 25px rgba(108, 92, 231, .45);
-    animation: latido 3s ease-in-out infinite;
+    display: grid;
+    place-items: center;
+    color: var(--acento);
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 12px 28px -12px rgba(99, 102, 241, .8);
+    animation: flotar-logo 4s ease-in-out infinite;
 }
 
 .marca h1 {
-    font-size: 1.7rem;
-    font-weight: 700;
-    letter-spacing: .5px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -.02em;
 }
 
 .marca p {
     margin-top: 6px;
-    color: var(--color-texto-suave);
-    font-size: .95rem;
+    font-size: .9rem;
+    color: var(--tinta-suave);
 }
 
-/* ============ 4. Formularios y campos ============ */
-/* Solo el formulario activo se muestra; los demás quedan ocultos */
+/* ============ 4. Formularios y campos minimalistas ============ */
 .formulario {
     display: none;
 }
 
 .formulario.activo {
     display: block;
-    animation: aparecer .45s ease both;
+    animation: deslizar .45s ease both;
 }
+
+/* Formulario que entra desde la izquierda (usado por JS) */
+.formulario.activo.izquierda { animation-name: deslizar-izq; }
 
 .campo {
     position: relative;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
 }
 
-/* Inputs con estilo de píldora suave */
+/* Inputs planos: solo una línea inferior que se ilumina al enfocar */
 .campo input {
     width: 100%;
-    padding: 15px 14px 13px;
-    font-size: 1rem;
-    color: var(--color-texto);
-    background: #fff;
-    border: 2px solid var(--color-borde);
-    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: .97rem;
+    font-family: inherit;
+    color: var(--tinta);
+    background: var(--fondo-campo);
+    border: 1.5px solid transparent;
+    border-radius: 14px;
     outline: none;
-    transition: border-color .3s ease, box-shadow .3s ease;
+    transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 
-/* Efecto de foco: borde degradado y sombra suave */
+.campo input::placeholder {
+    color: var(--tinta-suave);
+}
+
 .campo input:focus {
-    border-color: var(--color-primario);
-    box-shadow: 0 0 0 4px rgba(108, 92, 231, .12);
-}
-
-/* Etiqueta flotante: sube cuando el input tiene foco o contiene texto */
-.campo label {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0 6px;
-    color: var(--color-texto-suave);
-    background: transparent;
-    pointer-events: none;
-    transition: all .25s ease;
-}
-
-.campo input:focus + label,
-.campo input:not(:placeholder-shown) + label {
-    top: 0;
-    font-size: .76rem;
-    color: var(--color-primario);
     background: #fff;
+    border-color: var(--acento);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, .12);
 }
 
-/* Subrayado degradado que crece al enfocar el campo */
+/* Subrayado degradado que crece al enfocar (detalle animado) */
 .subrayado {
     position: absolute;
-    left: 14px;
-    bottom: -5px;
+    left: 16px;
+    bottom: 6px;
     width: 0;
-    height: 3px;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--color-primario), var(--color-acento));
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--acento), var(--acento-2));
     transition: width .35s ease;
 }
 
 .campo input:focus ~ .subrayado {
-    width: calc(100% - 28px);
+    width: calc(100% - 32px);
 }
 
-/* Texto para alternar entre formularios */
-.cambio-formulario {
-    margin-top: 24px;
-    text-align: center;
-    font-size: .92rem;
-    color: var(--color-texto-suave);
+/* ============ 5. Botón "ojito" (ver contraseña) ============ */
+.grupo-clave input {
+    padding-right: 52px; /* espacio para el botón */
 }
 
-.cambio-formulario button {
-    border: none;
+.ojo {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    color: var(--tinta-suave);
     background: none;
-    font-size: .95rem;
-    font-weight: 700;
-    color: var(--color-primario);
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
+    transition: color .25s ease, background .25s ease, transform .2s ease;
+}
+
+.ojo:hover {
+    color: var(--acento);
+    background: rgba(99, 102, 241, .1);
+}
+
+.ojo:active {
+    transform: translateY(-50%) scale(.9);
+}
+
+.ojo svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Se muestra el ojo abierto o el tachado según el estado */
+.ojo .icono-ojo-tachado { display: none; }
+
+.ojo.visible .icono-ojo { display: none; }
+.ojo.visible .icono-ojo-tachado { display: block; }
+
+/* ============ 6. Medidor de fuerza y requisitos ============ */
+.fuerza {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: -6px 0 12px;
+    opacity: .55;
+    transition: opacity .3s ease;
+}
+
+.fuerza.activo { opacity: 1; }
+
+.fuerza-barras {
+    display: flex;
+    gap: 5px;
+    flex: 1;
+}
+
+/* Cada barra se "llena" con un color según el nivel */
+.barra {
+    height: 5px;
+    flex: 1;
+    border-radius: 999px;
+    background: var(--linea);
+    transition: background .35s ease, transform .35s ease;
+}
+
+.fuerza-etiqueta {
+    min-width: 92px;
+    font-size: .74rem;
+    font-weight: 600;
+    text-align: right;
+    color: var(--tinta-suave);
+    transition: color .3s ease;
+}
+
+/* --- Colores por nivel (débil / medio / fuerte) --- */
+.fuerza[data-nivel="1"] .barra:nth-child(-n+1) { background: var(--error); }
+.fuerza[data-nivel="2"] .barra:nth-child(-n+2) { background: var(--aviso); }
+.fuerza[data-nivel="3"] .barra:nth-child(-n+3) { background: #84cc16; }
+.fuerza[data-nivel="4"] .barra:nth-child(-n+4) { background: var(--exito); }
+
+/* Pequeña animación de "rebote" al llenar cada barra */
+.fuerza[data-nivel="1"] .barra:nth-child(1),
+.fuerza[data-nivel="2"] .barra:nth-child(2),
+.fuerza[data-nivel="3"] .barra:nth-child(3),
+.fuerza[data-nivel="4"] .barra:nth-child(4) {
+    animation: latir-barra .4s ease;
+}
+
+.fuerza[data-nivel="1"] .fuerza-etiqueta { color: var(--error); }
+.fuerza[data-nivel="2"] .fuerza-etiqueta { color: var(--aviso); }
+.fuerza[data-nivel="3"] .fuerza-etiqueta { color: #65a30d; }
+.fuerza[data-nivel="4"] .fuerza-etiqueta { color: var(--exito); }
+
+/* Lista de requisitos con palomitas animadas */
+.requisitos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 14px;
+    margin: 0 0 18px;
+}
+
+.requisitos li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .76rem;
+    color: var(--tinta-suave);
     transition: color .25s ease;
 }
 
-.cambio-formulario button:hover {
-    color: var(--color-primario-oscuro);
-    text-decoration: underline;
+/* Punto de estado que se convierte en palomita */
+.requisitos .punto {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--linea);
+    color: #fff;
+    font-size: .6rem;
+    font-weight: 700;
+    transition: background .25s ease, transform .25s ease;
 }
 
-/* ============ 5. Botones ============ */
+.requisitos li.cumple {
+    color: var(--tinta);
+}
+
+.requisitos li.cumple .punto {
+    background: var(--exito);
+    animation: marcar .35s ease;
+}
+
+.requisitos li.cumple .punto::before {
+    content: '✓';
+}
+
+/* ============ 7. Botones de acción ============ */
 .boton {
     position: relative;
     display: block;
     width: 100%;
+    margin-top: 6px;
     padding: 15px;
-    border: none;
-    border-radius: 12px;
-    font-size: 1rem;
+    font-family: inherit;
+    font-size: .97rem;
     font-weight: 600;
     color: #fff;
-    background: linear-gradient(135deg, var(--color-primario), var(--color-acento));
-    cursor: pointer;
-    overflow: hidden;
     text-align: center;
     text-decoration: none;
-    transition: transform .2s ease, box-shadow .3s ease;
+    background: linear-gradient(120deg, var(--acento), var(--acento-2));
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .3s ease, filter .3s ease;
 }
 
 .boton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(108, 92, 231, .4);
+    box-shadow: 0 18px 32px -14px rgba(99, 102, 241, .95);
+    filter: brightness(1.04);
 }
 
 .boton:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(.99);
 }
 
-/* Efecto de brillo que recorre el botón al pasar el mouse */
+/* Destello que recorre el botón al pasar el mouse */
 .boton::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .35) 50%, transparent 70%);
+    background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .45) 50%, transparent 65%);
     transform: translateX(-100%);
 }
 
 .boton:hover::after {
-    animation: brillo .9s ease;
+    animation: destello .8s ease;
 }
 
-/* Estado "cargando": se oculta el texto y aparece el spinner */
+/* Estado de carga: spinner minimalista */
 .boton .cargando {
     display: none;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     margin: auto;
-    border: 3px solid rgba(255, 255, 255, .35);
+    border: 2.5px solid rgba(255, 255, 255, .35);
     border-top-color: #fff;
     border-radius: 50%;
-    animation: girar .8s linear infinite;
+    animation: girar .7s linear infinite;
 }
 
 .boton.cargando .texto { display: none; }
 .boton.cargando .cargando { display: block; }
 
-/* ============ 6. Notificaciones (toast) ============ */
+/* Texto para alternar entre formularios */
+.cambio-formulario {
+    margin-top: 22px;
+    text-align: center;
+    font-size: .9rem;
+    color: var(--tinta-suave);
+}
+
+.cambio-formulario button {
+    margin-left: 4px;
+    font-family: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--acento);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color .25s ease, letter-spacing .25s ease;
+}
+
+.cambio-formulario button:hover {
+    letter-spacing: .02em;
+    color: #4338ca;
+    text-decoration: underline;
+}
+
+/* ============ 8. Notificaciones (toast) ============ */
 .notificacion {
     position: fixed;
     left: 50%;
-    bottom: 30px;
+    bottom: 28px;
     z-index: 10;
     display: flex;
     align-items: center;
     gap: 12px;
-    width: min(420px, calc(100% - 40px));
-    padding: 15px 18px;
+    width: min(400px, calc(100% - 40px));
+    padding: 14px 18px;
     color: #fff;
-    background: #2d3436;
-    border-left: 5px solid var(--color-exito);
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, .35);
+    background: rgba(15, 23, 42, .94);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px -18px rgba(15, 23, 42, .9);
+    backdrop-filter: blur(10px);
     opacity: 0;
-    transform: translate(-50%, 140%);
-    transition: transform .45s cubic-bezier(.2, .9, .3, 1.2), opacity .3s ease;
+    transform: translate(-50%, 130%) scale(.96);
+    transition: transform .5s cubic-bezier(.2, .9, .3, 1.15), opacity .3s ease;
 }
 
-/* Clase .visible para mostrar la notificación */
 .notificacion.visible {
     opacity: 1;
-    transform: translate(-50%, 0);
-}
-
-/* Variante de error */
-.notificacion.error {
-    border-left-color: var(--color-error);
+    transform: translate(-50%, 0) scale(1);
 }
 
 .notificacion .icono {
-    font-size: 1.2rem;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    font-size: .85rem;
     font-weight: 700;
+    border-radius: 50%;
+    background: var(--exito);
 }
 
-/* ============ 7. Pantalla de bienvenida ============ */
-/* Tarjeta de la página bienvenida.php */
-.tarjeta-exito {
-    text-align: center;
+.notificacion.error .icono { background: var(--error); }
+
+.notificacion .mensaje {
+    font-size: .87rem;
+    line-height: 1.35;
 }
+
+/* ============ 9. Página de bienvenida ============ */
+.tarjeta-exito { text-align: center; }
 
 .logo-verde {
-    background: linear-gradient(135deg, var(--color-exito), var(--color-acento));
-    box-shadow: 0 10px 25px rgba(29, 209, 161, .45);
+    color: var(--exito);
+    box-shadow: 0 12px 28px -12px rgba(16, 185, 129, .9);
 }
 
 .datos-sesion {
     list-style: none;
-    margin: 8px 0 26px;
+    margin: 6px 0 24px;
     text-align: left;
 }
 
@@ -337,88 +492,101 @@ body {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    padding: 11px 14px;
-    margin-bottom: 10px;
-    background: #f6f7f9;
-    border-radius: 10px;
-    font-size: .93rem;
+    padding: 12px 15px;
+    margin-bottom: 9px;
+    font-size: .88rem;
+    background: var(--fondo-campo);
+    border-radius: 13px;
 }
 
 .datos-sesion li span {
-    font-weight: 700;
-    color: var(--color-primario);
+    font-weight: 600;
+    color: var(--tinta-suave);
 }
 
-/* ============ 8. Animaciones (keyframes) ============ */
+/* ============ 10. Animaciones (keyframes) ============ */
 
 /* Entrada de la tarjeta */
-@keyframes entrada {
-    from { opacity: 0; transform: translateY(45px) scale(.94); }
+@keyframes subir {
+    from { opacity: 0; transform: translateY(28px) scale(.97); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Aparición de los formularios al alternar */
-@keyframes aparecer {
-    from { opacity: 0; transform: translateX(var(--direccion, 0)); }
+/* Aparición de los formularios */
+@keyframes deslizar {
+    from { opacity: 0; transform: translateX(14px); }
     to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Movimiento suave de las burbujas del fondo */
-@keyframes flotar {
+@keyframes deslizar-izq {
+    from { opacity: 0; transform: translateX(-14px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Deriva lenta de los orbes del fondo */
+@keyframes derivar-1 {
     from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(35px, -45px) scale(1.12); }
+    to   { transform: translate(10vmax, 8vmax) scale(1.15); }
 }
 
-/* Latido del logo */
-@keyframes latido {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.06); }
+@keyframes derivar-2 {
+    from { transform: translate(0, 0) scale(1.1); }
+    to   { transform: translate(-9vmax, -7vmax) scale(1); }
 }
 
-/* Pulso de la tarjeta al autenticarse correctamente */
-@keyframes pulso {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.03); }
-    100% { transform: scale(1); }
+/* Flotación suave del logo */
+@keyframes flotar-logo {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
 }
 
-/* Sacudida de la tarjeta cuando hay un error */
+/* Rebote al llenar una barra del medidor */
+@keyframes latir-barra {
+    50% { transform: scaleY(1.8); }
+}
+
+/* Aparición de la palomita de cada requisito */
+@keyframes marcar {
+    from { transform: scale(.4); }
+    70%  { transform: scale(1.25); }
+    to   { transform: scale(1); }
+}
+
+/* Sacudida de la tarjeta cuando hay error */
 @keyframes sacudir {
     10%, 90% { transform: translateX(-2px); }
-    20%, 80% { transform: translateX(4px); }
-    30%, 50%, 70% { transform: translateX(-7px); }
-    40%, 60% { transform: translateX(7px); }
+    20%, 80% { transform: translateX(3px); }
+    30%, 50%, 70% { transform: translateX(-6px); }
+    40%, 60% { transform: translateX(6px); }
 }
 
-.tarjeta.sacudir {
-    animation: sacudir .6s ease;
-}
+.tarjeta.sacudir { animation: sacudir .55s ease; }
 
 /* Spinner del botón */
 @keyframes girar {
     to { transform: rotate(360deg); }
 }
 
-/* Brillo del botón */
-@keyframes brillo {
+/* Destello del botón */
+@keyframes destello {
     to { transform: translateX(100%); }
 }
 
-/* ============ 9. Media queries (responsive) ============ */
+/* ============ 11. Media queries (responsive) ============ */
 
-/* Teléfonos y tabletas pequeñas */
-@media (max-width: 480px) {
+/* Tabletas y teléfonos */
+@media (max-width: 460px) {
     .tarjeta {
-        padding: 34px 22px 26px;
+        padding: 32px 22px 24px;
+        border-radius: 18px;
     }
 
-    .marca h1 {
-        font-size: 1.45rem;
-    }
+    .marca h1 { font-size: 1.32rem; }
 
-    .burbuja-1 { width: 220px; height: 220px; }
-    .burbuja-2 { width: 180px; height: 180px; }
-    .burbuja-3, .burbuja-4 { display: none; }
+    /* Los requisitos pasan a una sola columna */
+    .requisitos { grid-template-columns: 1fr; }
+
+    .fuerza-etiqueta { min-width: 80px; }
 }
 
 /* Personas que prefieren menos movimiento */

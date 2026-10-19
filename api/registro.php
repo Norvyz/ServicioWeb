@@ -39,9 +39,24 @@ if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
     responder('error', 'El correo electrónico no es válido.', 400);
 }
 
-// 3.4 La contraseña debe tener al menos 6 caracteres
-if (strlen($clave) < 6) {
-    responder('error', 'La contraseña debe tener al menos 6 caracteres.', 400);
+// 3.4 La contraseña debe tener mínimo 8 caracteres
+if (strlen($clave) < 8) {
+    responder('error', 'La contraseña debe tener al menos 8 caracteres.', 400);
+}
+
+// 3.4.1 Debe contener al menos una mayúscula, una minúscula,
+//       un número y un símbolo (contraseña segura).
+$esSegura = preg_match('/[A-Z]/', $clave)   // al menos una mayúscula
+         && preg_match('/[a-z]/', $clave)   // al menos una minúscula
+         && preg_match('/[0-9]/', $clave)   // al menos un número
+         && preg_match('/[^A-Za-z0-9]/', $clave); // al menos un símbolo
+
+if (!$esSegura) {
+    responder(
+        'error',
+        'La contraseña debe incluir al menos una mayúscula, una minúscula, un número y un símbolo.',
+        400
+    );
 }
 
 // 3.5 Ambas contraseñas deben coincidir
